@@ -93,4 +93,14 @@ public class BooksController {
         booksService.delete(id);
         return "redirect:/books";
     }
+
+    @GetMapping("/search")
+    public String searchPage() {
+        return "books/search";
+    }
+    @PostMapping("/search")
+    public String makeSearch(Model model, @RequestParam(name = "query") String query) {
+        model.addAttribute("books", booksService.search(query));
+        return "books/search";
+    }
 }

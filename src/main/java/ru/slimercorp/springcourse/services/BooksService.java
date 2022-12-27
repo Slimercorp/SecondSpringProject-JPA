@@ -91,4 +91,13 @@ public class BooksService {
         Hibernate.initialize(book.getOwner());
         return Optional.ofNullable(book.getOwner());
     }
+
+    public List<Book> search(String query) {
+        List<Book> books = booksRepository.findByNameStartingWith(query);
+        for (Book book : books) {
+            Hibernate.initialize(book.getOwner());
+        }
+
+        return books;
+    }
 }
