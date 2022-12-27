@@ -10,6 +10,7 @@ import ru.slimercorp.springcourse.models.Book;
 import ru.slimercorp.springcourse.models.Person;
 import ru.slimercorp.springcourse.repositories.BooksRepository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -81,8 +82,9 @@ public class BooksService {
 
     @Transactional
     public void setPerson(int id, Person person) {
-        Optional<Book> foundBook = booksRepository.findById(id);
-        foundBook.get().setOwner(person);
+        Book foundBook = booksRepository.findById(id).get();
+        foundBook.setAssignTime(new Date());
+        foundBook.setOwner(person);
     }
 
     @Transactional

@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 /**
  * @author Neil Alishev
@@ -34,6 +35,13 @@ public class Book {
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person owner;
 
+    @Column(name="assign_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date assignTime;
+
+    @Transient
+    private boolean isExpired;
+
     public Book() {
 
     }
@@ -42,6 +50,7 @@ public class Book {
         this.name = name;
         this.author = author;
         this.year = year;
+        this.isExpired = false;
     }
 
     public int getId() {
@@ -79,8 +88,23 @@ public class Book {
     public Person getOwner() {
         return owner;
     }
-
     public void setOwner(Person owner) {
         this.owner = owner;
+    }
+
+    public boolean getExpiredFlag() {
+        return isExpired;
+    }
+
+    public void setExpiredFlag(boolean isExpired) {
+        this.isExpired = isExpired;
+    }
+
+    public Date getAssignTime() {
+        return assignTime;
+    }
+
+    public void setAssignTime(Date assignTime) {
+        this.assignTime = assignTime;
     }
 }

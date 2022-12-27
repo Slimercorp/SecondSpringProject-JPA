@@ -8,6 +8,7 @@ import ru.slimercorp.springcourse.models.Book;
 import ru.slimercorp.springcourse.models.Person;
 import ru.slimercorp.springcourse.repositories.PeopleRepository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,6 +55,13 @@ public class PeopleService {
     public List<Book> getBooks(int id) {
         Person person = peopleRepository.findById(id).get();
         Hibernate.initialize(person.getBooks());
+        for (Book book : person.getBooks()) {
+            Date currentTime = new Date();
+            Date assignTime = book.getAssignTime();
+            // 864000000 милисекунд = 10 суток
+            book.setExpiredFlag(Math.abs(currentTime.getTime() - assignTime.getTime()) > 864000000);
+        }
+
         return person.getBooks();
     }
 }
